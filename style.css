@@ -802,3 +802,169 @@ h1 {
   opacity: 0;
   pointer-events: auto;
 }
+
+
+/* =========================
+   MOBILE RESPONSIVE FIXES
+   ========================= */
+
+@media (max-width: 768px) {
+
+  /* Disable custom cursor on mobile */
+  body, body * {
+    cursor: auto !important;
+  }
+  .cursor {
+    display: none !important;
+  }
+
+  /* ========== PAGE 1 ========== */
+
+  h1 {
+    font-size: clamp(48px, 14vw, 96px);
+    padding: 0 12px;
+  }
+
+  .flower {
+    font-size: 14px;
+    padding: 0 16px;
+  }
+
+  /* Scale blobs */
+  .shape.shape-1 {
+    width: 360px;
+    height: 360px;
+    margin: -180px 0 0 -180px;
+  }
+
+  .shape.shape-2 {
+    width: 260px;
+    height: 260px;
+    margin: -130px 0 0 -130px;
+  }
+
+  .shape.shape-3 {
+    width: 160px;
+    height: 160px;
+    margin: -80px 0 0 -80px;
+  }
+
+  /* ========== PAGE 2 ========== */
+
+  #birthday-page .hero h1 {
+    font-size: 14vw;
+    padding: 0 10px;
+  }
+
+  #birthday-page .hero p {
+    font-size: 14px;
+    padding: 0 20px;
+  }
+
+  #birthday-page .btn {
+    top: 80%;
+    padding: 12px 22px;
+    font-size: 11px;
+  }
+
+  /* Images smaller */
+  #birthday-page .img {
+    width: 220px;
+    height: 300px;
+  }
+
+  #birthday-page .img.reorder {
+    width: 200px;
+    height: 280px;
+  }
+
+  /* Make side positions closer to center */
+  #birthday-page .img:nth-child(1),
+  #birthday-page .img:nth-child(3) {
+    left: 60%;
+  }
+
+  #birthday-page .img:nth-child(2),
+  #birthday-page .img:nth-child(4) {
+    left: 40%;
+  }
+
+  /* Portal smaller */
+  #birthday-page .next-portal {
+    width: 90px;
+    height: 90px;
+    bottom: 30px;
+  }
+
+  #birthday-page .portal-core {
+    width: 60px;
+    height: 60px;
+  }
+
+  #birthday-page .next-portal span {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+  }
+
+  /* Scroll hint smaller */
+  .scroll-hint {
+    bottom: 20px;
+  }
+
+  .scroll-hint .mouse {
+    width: 20px;
+    height: 32px;
+  }
+
+  /* ========== PAGE 3 ========== */
+
+  #time-page .time-grid {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  #time-page .time-box span {
+    font-size: clamp(36px, 12vw, 72px);
+  }
+
+  #time-page h2 {
+    font-size: 20px;
+    padding: 0 16px;
+  }
+
+  #time-page .next-btn {
+    padding: 12px 24px;
+    font-size: 11px;
+    bottom: 24px;
+  }
+
+  /* ========== PAGE 4 ========== */
+
+  #final-page .story-line {
+    font-size: clamp(18px, 4.5vw, 28px);
+    line-height: 1.4;
+  }
+
+  #final-page .story-container {
+    padding: 12vw;
+  }
+
+  #final-page .next-btn {
+    padding: 12px 24px;
+    font-size: 11px;
+    bottom: 24px;
+  }
+
+  /* ========== PAGE 5 ========== */
+
+  #balloon-page .final-line {
+    font-size: clamp(22px, 6vw, 36px);
+    padding: 0 16px;
+    text-align: center;
+  }
+
+  #balloon-page .restart-btn {
+    padding: 12px 24px;
+    font-size: 11px;
+  }
+}
