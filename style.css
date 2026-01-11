@@ -1,0 +1,804 @@
+body {
+  margin: 0;
+  font-family: Montserrat, sans-serif;
+  font-weight: 900;
+  overflow: hidden;
+}
+
+body, body * {
+  cursor: none;
+}
+
+/* BACKGROUND */
+.shapes {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  background: #2128bd;
+  overflow: hidden;
+}
+
+/* SHAPES */
+.shape {
+  will-change: transform;
+  position: absolute;
+  border-radius: 50%;
+
+}
+
+/* Shape 1 */
+.shape.shape-1 {
+  background: #005ffe;
+  width: 650px;
+  height: 650px;
+  margin: -325px 0 0 -325px;
+}
+
+/* Shape 2 */
+.shape.shape-2 {
+  background: #ffe5e3;
+  width: 440px;
+  height: 440px;
+  margin: -220px 0 0 -220px;
+}
+
+/* Shape 3 */
+.shape.shape-3 {
+  background: #ffcc57;
+  width: 270px;
+  height: 270px;
+  margin: -135px 0 0 -135px;
+}
+
+/* CONTENT */
+.content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  background: white;
+  mix-blend-mode: screen;
+}
+.flower{
+  font-size: clamp(10px, 3vw, 20px);
+  color: black;
+  margin: 0;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+h1 {
+  font-size: clamp(100px, 12vw, 200px);
+  color: black;
+  margin: 0;
+  text-align: center;
+}
+
+/* CURSOR */
+.cursor {
+  position: fixed;
+  background: #2128bd;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border-radius: 50%;
+  will-change: transform;
+  pointer-events: none;
+  z-index: 99999; /* keep it topmost */
+  transform: translateZ(0);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  border: 2px solid rgba(255,255,255,0.9);
+  mix-blend-mode: normal;
+}
+
+/* SELECTION */
+::selection {
+  color: #fff;
+  background: #2128bd;
+}
+
+
+/* helper to hide the custom cursor */
+.cursor.hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+} 
+
+
+/* ================= PAGE 2 : BIRTHDAY PAGE ================= */
+#birthday-page {
+  position: fixed;
+  inset: 0;
+  background: #e4eaed;
+  overflow: hidden; /* locomotive handles scroll */
+  opacity: 0;
+  pointer-events: none;
+  z-index: 20000;
+  will-change: opacity;
+}
+
+/* ===== GALLERY AREA ===== */
+
+#birthday-page .img-gallery {
+  position: relative;
+  width: 100vw;
+  overflow: hidden; 
+  min-height: 300vh;  /* 🔥 THIS CREATES SCROLL */
+}
+
+/* Keep same spacing logic as original */
+
+#birthday-page .img-gallery-container {
+  width: 100vw;
+  padding-top: 100vh;
+  overflow: visible;
+}
+/* Cards */
+
+.celebrate {
+  animation: celebratePop 1.2s ease-out;
+}
+
+@keyframes celebratePop {
+  0%   { transform: scale(0.8); opacity: 0; }
+  60%  { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+
+#birthday-page .img {
+  position: relative;
+  margin-bottom: 1em;
+  width: 320px;
+  height: 420px;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+#birthday-page .img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Left / Right positions */
+
+#birthday-page .img:nth-child(1),
+#birthday-page .img:nth-child(3) {
+  left: 70%;
+}
+
+#birthday-page .img:nth-child(2),
+#birthday-page .img:nth-child(4) {
+  left: 30%;
+}
+
+/* Reorder state (stacked) */
+
+#birthday-page .img.reorder {
+  position: absolute;          /* 🔥 FIXED to viewport */
+  top: 50vh;                /* 🔥 center of screen */
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  width: 260px;
+  height: 360px;
+  z-index: 5; /* keep stacked images below CTA */
+}
+
+/* Rotations */
+
+#birthday-page .img.reorder:nth-child(1) {
+  transform: translate(-50%, -50%) rotate(8deg);
+}
+
+#birthday-page .img.reorder:nth-child(2) {
+  transform: translate(-50%, -50%) rotate(-6deg);
+}
+
+#birthday-page .img.reorder:nth-child(3) {
+  transform: translate(-50%, -50%) rotate(3deg);
+}
+
+#birthday-page .img.reorder:nth-child(4) {
+  transform: translate(-50%, -50%) rotate(-3deg);
+}
+
+/* ===== HERO TEXT ===== */
+
+#birthday-page .hero {
+  width: 100%;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+/* Title */
+
+#birthday-page .hero h1 {
+  width: 100%;
+  font-size: 12vw;
+  font-weight: 400;
+  letter-spacing: -0.05em;
+  color: #005ffe;
+  text-transform: capitalize;
+}
+
+/* Subtitle */
+
+#birthday-page .hero p {
+  margin-top: 1em;
+  font-size: 1.3vw;
+  color: #2128bd;
+}
+
+/* ===== BUTTON ===== */
+
+#birthday-page .btn {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #2e60ff;
+  color: #fff;
+  font-size: 12px;
+  border-radius: 30px;
+  padding: 1em 2.5em;
+  cursor: pointer;
+  z-index: 1001; /* put above images */
+  box-shadow: 0 10px 30px rgba(46, 96, 255, 0.35);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#birthday-page .btn:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 15px 40px rgba(46, 96, 255, 0.5);
+}
+
+/* helper to hide Explore cleanly (removes clicks) */
+#birthday-page .btn.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ================= NEXT PAGE PORTAL CTA ================= */
+
+#birthday-page .next-portal {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 99999;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#birthday-page .next-portal span {
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #e4eaed;
+  opacity: 0.8;
+}
+
+/* glowing core */
+
+#birthday-page .portal-core {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #2e60ff, #c54dff);
+  filter: blur(0px);
+  box-shadow:
+    0 0 20px rgba(46,96,255,0.6),
+    0 0 60px rgba(197,77,255,0.4);
+  animation: portalPulse 2.5s ease-in-out infinite;
+}
+
+/* pulse animation */
+
+@keyframes portalPulse {
+  0% {
+    transform: scale(0.9);
+    box-shadow:
+      0 0 20px rgba(46,96,255,0.6),
+      0 0 60px rgba(197,77,255,0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow:
+      0 0 35px rgba(46,96,255,0.9),
+      0 0 90px rgba(197,77,255,0.7);
+  }
+  100% {
+    transform: scale(0.9);
+    box-shadow:
+      0 0 20px rgba(46,96,255,0.6),
+      0 0 60px rgba(197,77,255,0.4);
+  }
+}
+
+/* hover reaction */
+
+#birthday-page .next-portal:hover .portal-core {
+  transform: scale(1.15);
+  box-shadow:
+    0 0 50px rgba(46,96,255,1),
+    0 0 120px rgba(197,77,255,0.9);
+}
+/* ================= NEXT PAGE PORTAL CTA ================= */
+
+
+#birthday-page .next-portal {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 99999;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+#birthday-page .next-portal span {
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #c54dff;
+  opacity: 0.8;
+}
+
+/* glowing core */
+
+#birthday-page .portal-core {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #2e60ff, #c54dff);
+  filter: blur(0px);
+  box-shadow:
+    0 0 20px rgba(46,96,255,0.6),
+    0 0 60px rgba(197,77,255,0.4);
+  animation: portalPulse 2.5s ease-in-out infinite;
+}
+
+/* pulse animation */
+
+@keyframes portalPulse {
+  0% {
+    transform: scale(0.9);
+    box-shadow:
+      0 0 20px rgba(46,96,255,0.6),
+      0 0 60px rgba(197,77,255,0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow:
+      0 0 35px rgba(46,96,255,0.9),
+      0 0 90px rgba(197,77,255,0.7);
+  }
+  100% {
+    transform: scale(0.9);
+    box-shadow:
+      0 0 20px rgba(46,96,255,0.6),
+      0 0 60px rgba(197,77,255,0.4);
+  }
+}
+
+/* hover reaction */
+
+#birthday-page .next-portal:hover .portal-core {
+  transform: scale(1.15);
+  box-shadow:
+    0 0 50px rgba(46,96,255,1),
+    0 0 120px rgba(197,77,255,0.9);
+}
+
+/* ================= SCROLL HINT ================= */
+
+.scroll-hint {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 99999;
+}
+
+/* mouse outline */
+.scroll-hint .mouse {
+  width: 24px;
+  height: 38px;
+  border: 2px solid rgba(228, 234, 237, 0.7);
+  border-radius: 14px;
+  position: relative;
+}
+
+/* wheel */
+.scroll-hint .wheel {
+  width: 4px;
+  height: 6px;
+  background: rgba(228, 234, 237, 0.9);
+  border-radius: 2px;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scrollWheel 1.4s ease-in-out infinite;
+}
+
+.scroll-hint span {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(228, 234, 237, 0.6);
+}
+
+@keyframes scrollWheel {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+}
+
+/* ================= PAGE 3 : TIME COUNTER ================= */
+/* ================= PAGE 3 : TIME COUNTER ================= */
+
+#time-page {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(1200px 800px at 50% 20%, #2a2a44, #161625 60%);
+  color: #e4eaed;
+  display: none;
+  opacity: 0;
+  z-index: 40000;
+  overflow: hidden;
+}
+
+/* Center content */
+#time-page .time-hero {
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(2.5rem, 6vw, 4.5rem);
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Heading */
+#time-page h2 {
+  font-size: clamp(22px, 4vw, 56px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  opacity: 0.9;
+  margin: 0;
+}
+
+/* Grid */
+#time-page .time-grid {
+  display: flex;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Box */
+#time-page .time-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 120px;
+}
+
+/* Number */
+#time-page .time-box span {
+  font-size: clamp(42px, 8vw, 140px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+/* Label */
+#time-page .time-box label {
+  margin-top: 12px;
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+/* Highlight seconds */
+#time-page .time-box.seconds span {
+  color: #2e60ff;
+  text-shadow: 0 0 40px rgba(46, 96, 255, 0.4);
+  animation: pulseSeconds 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseSeconds {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+/* ================= STARFIELD BACKGROUND ================= */
+
+#time-page {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+
+}
+
+/* container */
+#time-page .starfield {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* star layers */
+#time-page .stars {
+  position: absolute;
+  inset: -200%;
+  background-repeat: repeat;
+  animation: drift linear infinite;
+  opacity: 0.6;
+  animation: drift linear infinite, twinkle 6s ease-in-out infinite alternate;
+}
+
+#time-page .layer1 {
+  background-image:
+    radial-gradient(1.2px 1.2px at 20% 30%, #ffffff, transparent),
+    radial-gradient(1.2px 1.2px at 80% 70%, #ffffff, transparent),
+    radial-gradient(1.2px 1.2px at 50% 50%, #ffffff, transparent),
+    radial-gradient(1.2px 1.2px at 10% 90%, #ffffff, transparent),
+    radial-gradient(1.2px 1.2px at 90% 10%, #ffffff, transparent);
+  background-size: 260px 260px;
+  animation-duration: 120s;
+  opacity: 0.65;
+  filter: drop-shadow(0 0 2px rgba(255,255,255,0.8));
+}
+
+#time-page .layer2 {
+  background-image:
+    radial-gradient(1.8px 1.8px at 30% 40%, #ffffff, transparent),
+    radial-gradient(1.8px 1.8px at 70% 20%, #ffffff, transparent),
+    radial-gradient(1.8px 1.8px at 90% 80%, #ffffff, transparent),
+    radial-gradient(1.8px 1.8px at 40% 70%, #ffffff, transparent),
+    radial-gradient(1.8px 1.8px at 15% 60%, #ffffff, transparent);
+  background-size: 380px 380px;
+  animation-duration: 180s;
+  opacity: 0.45;
+  filter: drop-shadow(0 0 3px rgba(255,255,255,0.9));
+}
+
+#time-page .layer3 {
+  background-image:
+    radial-gradient(2.4px 2.4px at 25% 25%, #ffffff, transparent),
+    radial-gradient(2.4px 2.4px at 75% 60%, #ffffff, transparent),
+    radial-gradient(2.4px 2.4px at 60% 10%, #ffffff, transparent),
+    radial-gradient(2.4px 2.4px at 10% 40%, #ffffff, transparent),
+    radial-gradient(2.4px 2.4px at 85% 85%, #ffffff, transparent);
+  background-size: 520px 520px;
+  animation-duration: 260s;
+  opacity: 0.3;
+  filter: drop-shadow(0 0 4px rgba(255,255,255,1));
+}
+
+/* slow drift */
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(400px, 800px, 0); }
+}
+
+@keyframes twinkle {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+#time-page .next-btn {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 14px 36px;
+  border-radius: 999px;
+
+  /* Glass look */
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  color: #e4eaed;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+
+  z-index: 50000;
+  transition: 
+    transform 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+#time-page .next-btn:hover {
+  transform: translateX(-50%) scale(1.08);
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+}
+/* ================= PAGE 4 : STORY + MUSIC ================= */
+
+#final-page {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #1e2233 0%, #0b0c0f 70%);
+  color: #e4eaed;
+  display: none;
+  opacity: 0;
+  z-index: 60000;
+  overflow: hidden;
+}
+
+/* Center container */
+#final-page .story-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8vw;
+  text-align: center;
+}
+
+/* Story line */
+#final-page .story-line {
+  font-size: clamp(22px, 3vw, 44px);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  max-width: 900px;
+  opacity: 0;
+  color: #e4eaed;
+
+  text-shadow:
+    0 0 20px rgba(46,96,255,0.15),
+    0 0 60px rgba(197,77,255,0.08);
+}
+
+/* Continue button */
+#final-page .next-btn {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 14px 36px;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  color: #e4eaed;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+
+  z-index: 70000;
+  opacity: 0;
+  pointer-events: none;
+
+  transition: all 0.3s ease;
+}
+
+#final-page .next-btn:hover {
+  transform: translateX(-50%) scale(1.08);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* ================= PAGE 5 : BALLOON ENDING ================= */
+
+#balloon-page {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(to top, #0f1320, #1c1c28, #2b2f4a);
+  display: none;
+  opacity: 0;
+  z-index: 90000;
+  overflow: hidden;
+}
+
+#balloon-canvas {
+  position: absolute;
+  inset: 0;
+}
+
+/* UI */
+#balloon-page .balloon-ui {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  pointer-events: none;
+}
+
+#balloon-page .final-line {
+  font-size: clamp(26px, 5vw, 64px);
+  font-weight: 400;
+  opacity: 0;
+  color: #e4eaed;
+  text-shadow: 0 0 40px rgba(180,200,255,0.4);
+}
+
+/* Restart button */
+#balloon-page .restart-btn {
+  margin-top: 20px;
+  padding: 14px 36px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.3);
+  backdrop-filter: blur(10px);
+  color: #e4eaed;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: auto;
+}

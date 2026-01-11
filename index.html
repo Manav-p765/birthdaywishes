@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Birthday Experience</title>
+
+  <!-- Your main CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Locomotive CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css">
+</head>
+
+<body>
+
+  <!-- ================= PAGE 1 (BLOBS) ================= -->
+  <div id="page1">
+
+    <div class="cursor"></div>
+
+    <div class="shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+
+    <div class="content">
+      <h1>Hello there!</h1>
+      <p>Click anywhere to continue</p>
+    </div>
+
+  </div>
+
+  <!-- ================= PAGE 2 (GALLERY) ================= -->
+  <div id="birthday-page" class="birthday-page" aria-hidden="true">
+
+    <div class="img-gallery" data-scroll-container>
+      <div class="img-gallery-container order" data-scroll>
+        <div class="img reorder">
+          <img src="/images/1.jpg" />
+        </div>
+        <div class="img reorder">
+          <img src="/images/2.jpg" />
+        </div>
+        <div class="img reorder">
+          <img src="/images/3.jpg" />
+        </div>
+        <div class="img reorder">
+          <img src="/images/4.jpg" />
+        </div>
+      </div>
+    </div>
+
+    <div class="hero">
+      <h1 class="celebrate">Happy Birthday🎉</h1>
+
+      <p>“Hope this year is kinder to you and full of small, happy things</p>
+    </div>
+
+    <div class="btn">see memories</div>
+    <div class="next-portal" id="go-time">
+      <div class="portal-core"></div>
+      <span>See your journey</span>
+    </div>
+    <div class="scroll-hint">
+      <div class="mouse">
+        <div class="wheel"></div>
+      </div>
+      <span>Scroll</span>
+    </div>
+
+
+  </div>
+
+  <!-- ================= PAGE 3 : TIME COUNTER ================= -->
+  <div id="time-page" aria-hidden="true">
+
+    <div class="time-hero">
+      <h2>Time since you were born</h2>
+
+      <div class="time-grid">
+        <div class="time-box">
+          <label>Days</label>
+          <span id="days">0</span>
+        </div>
+        <div class="time-box">
+          <label>Hours</label>
+          <span id="hours">0</span>
+        </div>
+        <div class="time-box">
+          <label>Minutes</label>
+          <span id="minutes">0</span>
+        </div>
+        <div class="time-box seconds">
+          <label>Seconds</label>
+          <span id="seconds">0</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="starfield">
+      <div class="stars layer1"></div>
+      <div class="stars layer2"></div>
+      <div class="stars layer3"></div>
+    </div>
+
+    <div class="next-btn" id="go-final">Continue ✨</div>
+
+  </div>
+
+  <!-- ================= PAGE 4 : FINAL SCROLL TEXT ================= -->
+<!-- ================= PAGE 4 : STORY + MUSIC ================= -->
+<div id="final-page" aria-hidden="true">
+
+  <div class="story-container">
+    <div class="story-line"></div>
+  </div>
+
+  <!-- Background music -->
+  <audio id="bg-music" src="/music/dooron_dooron.mp3" preload="auto"></audio>
+
+  <!-- Continue button -->
+  <div class="next-btn">Continue</div>
+
+</div>
+
+<!-- // ================= FINAL CLOSER PAGE ================= --> 
+  <div id="final-closer-page">
+
+    <div class="stars-bg"></div>
+
+    <div class="final-content">
+      <h1>Your story is just getting started ✨</h1>
+
+      <p class="line">No matter how far you go, remember who you are.</p>
+      <p class="line">I’m proud of you. 💙</p>
+
+      <div class="restart-btn">Relive This Moment</div>
+    </div>
+
+  </div>
+  <!-- ================= PAGE 5 : BALLOON ENDING ================= -->
+<div id="balloon-page" aria-hidden="true">
+
+  <canvas id="balloon-canvas"></canvas>
+
+  <div class="balloon-ui">
+    <h1 class="final-line">And this… is just the beginning 🎈</h1>
+    <div class="restart-btn">Relive Journey</div>
+  </div>
+
+</div>
+  <!-- ================= SCRIPTS ================= -->
+
+  <!-- GSAP -->
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+
+  <!-- GSAP Flip -->
+  <script src="https://assets.codepen.io/16327/Flip.min.js"></script>
+
+  <!-- Custom Ease -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/CustomEase.min.js"></script>
+
+  <!-- Locomotive -->
+  <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.min.js"></script>
+
+  <!-- Your blob JS -->
+  <script src="index.js"></script>
+
+  <script>
+  const expiry = new Date("2026-01-12T00:00:00").getTime();
+
+  if (Date.now() > expiry) {
+    document.body.innerHTML = "<h1>⛔ This link has expired</h1>";
+  }
+</script>
+
+
+
+
+</body>
+
+</html>
