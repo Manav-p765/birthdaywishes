@@ -12,28 +12,59 @@ document.addEventListener('click', (e) => {
 }, true); // use capture phase
 
 // =======================
-// PAGE 1: CURSOR + BLOBS
+// PAGE 1: BLOBS FOLLOW (WORKS ON MOBILE + DESKTOP)
 // =======================
-const cursor = document.querySelector(".cursor");
+
 const shapes = document.querySelectorAll(".shape");
+const cursor = document.querySelector(".cursor");
 
-const setCursorX = gsap.quickSetter(cursor, "x", "px");
-const setCursorY = gsap.quickSetter(cursor, "y", "px");
+// Detect touch device
+const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
-document.addEventListener("mousemove", (e) => {
-  const x = e.clientX;
-  const y = e.clientY;
+// Hide fake cursor on touch devices
+if (isTouch && cursor) {
+  cursor.style.display = "none";
+}
 
-  setCursorX(x);
-  setCursorY(y);
+// GSAP setters
+const setCursorX = cursor ? gsap.quickSetter(cursor, "x", "px") : null;
+const setCursorY = cursor ? gsap.quickSetter(cursor, "y", "px") : null;
+
+// Main move function
+function moveBlobs(x, y) {
+  if (cursor && setCursorX && setCursorY) {
+    setCursorX(x);
+    setCursorY(y);
+  }
 
   gsap.to(shapes, {
-    x,
-    y,
+    x: x,
+    y: y,
     stagger: -0.1,
     duration: 0.6,
     ease: "power3.out",
   });
+}
+
+// ===== DESKTOP =====
+window.addEventListener("mousemove", (e) => {
+  moveBlobs(e.clientX, e.clientY);
+});
+
+// ===== MOBILE TOUCH =====
+window.addEventListener("touchstart", (e) => {
+  const t = e.touches[0];
+  moveBlobs(t.clientX, t.clientY);
+}, { passive: true });
+
+window.addEventListener("touchmove", (e) => {
+  const t = e.touches[0];
+  moveBlobs(t.clientX, t.clientY);
+}, { passive: true });
+
+// ===== POINTER FALLBACK =====
+window.addEventListener("pointermove", (e) => {
+  moveBlobs(e.clientX, e.clientY);
 });
 
 // =======================
