@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Secure Link Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Inter, system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(1200px 600px at 10% 10%, #0f172a, #020617);
+      color: #e5e7eb;
+      padding: 16px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(18px);
+      border-radius: 18px;
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+      animation: enter 0.5s ease;
+    }
+
+    @keyframes enter {
+      from { opacity: 0; transform: translateY(20px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 24px;
+    }
+
+    .subtitle {
+      opacity: 0.7;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    label {
+      font-size: 13px;
+      opacity: 0.8;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(0,0,0,0.35);
+      color: white;
+      font-size: 15px;
+      outline: none;
+      margin-top: 6px;
+    }
+
+    input:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.25);
+    }
+
+    button {
+      width: 100%;
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: white;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      box-shadow: 0 10px 30px rgba(99,102,241,0.4);
+    }
+
+    .result {
+      margin-top: 16px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .result input {
+      flex: 1;
+    }
+
+    .msg {
+      margin-top: 10px;
+      font-size: 14px;
+      opacity: 0.85;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .eye-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #c7d2fe;
+      cursor: pointer;
+      font-size: 13px;
+      opacity: 0.8;
+    }
+
+    .input-group {
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<div class="card" id="loginBox">
+
+  <h1>Admin Login</h1>
+  <div class="subtitle">Restricted access</div>
+
+  <div class="input-group">
+    <input type="password" id="password" placeholder="Enter admin password" />
+    <button class="" type="button" onclick="togglePass()">Show</button>
+  </div>
+
+  <button onclick="login()">Login</button>
+  <div id="loginMsg" class="msg"></div>
+
+</div>
+
+<!-- ================= GENERATOR ================= -->
+<div class="card hidden" id="generatorBox">
+
+  <h1>Generate Access Link</h1>
+  <div class="subtitle">Create a temporary access URL</div>
+
+  <label>Expires in (hours)</label>
+  <input id="hours" type="number" min="1" value="24" />
+
+  <button onclick="generate()">Generate Link</button>
+
+  <div class="result">
+    <input id="resultLink" readonly placeholder="Generated link will appear here"/>
+    <button onclick="copyLink()">Copy</button>
+  </div>
+
+  <div id="msg" class="msg"></div>
+
+</div>
+
+<script>
+function togglePass() {
+  const p = document.getElementById("password");
+  p.type = p.type === "password" ? "text" : "password";
+}
+
+// ================= LOGIN =================
+async function login() {
+  const password = document.getElementById("password").value;
+  const msg = document.getElementById("loginMsg");
+
+  msg.innerText = "Checking...";
+
+  const res = await fetch("/admin/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ password })
+  });
+
+  if (res.ok) {
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("generatorBox").classList.remove("hidden");
+  } else {
+    msg.innerText = "Wrong password";
+  }
+}
+
+// ================= GENERATE =================
+async function generate() {
+  const hours = document.getElementById("hours").value;
+  const msg = document.getElementById("msg");
+
+  msg.innerText = "Generating...";
+
+  const res = await fetch("/admin/create-link", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ hours })
+  });
+
+  if (!res.ok) {
+    msg.innerText = "Failed to generate link.";
+    return;
+  }
+
+  const data = await res.json();
+  document.getElementById("resultLink").value = data.link;
+  msg.innerText = "Link generated.";
+}
+
+function copyLink() {
+  const input = document.getElementById("resultLink");
+  if (!input.value) return;
+  navigator.clipboard.writeText(input.value);
+}
+</script>
+
+</body>
+</html>

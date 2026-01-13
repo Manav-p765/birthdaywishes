@@ -1,39 +1,79 @@
+require("dotenv").config();
+
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const session = require("express-session");
 const { v4: uuidv4 } = require("uuid");
 
 const app = express();
+
+// ================== CONFIG ==================
+const PORT = process.env.PORT || 3000;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "123456";
+const DB_FILE = path.join(__dirname, "links.json");
+
+// ================== MIDDLEWARE ==================
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const DB_FILE = "./links.json";
+// ✅ SERVE STATIC FILES FIRST
+app.use(express.static(__dirname));
 
-// Load DB
+// ✅ SESSION BEFORE ROUTES
+app.use(
+  session({
+    secret: "super-secret-key-change-this",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// ================== DB HELPERS ==================
 function loadDB() {
   if (!fs.existsSync(DB_FILE)) return {};
   return JSON.parse(fs.readFileSync(DB_FILE, "utf-8"));
 }
 
-// Save DB
 function saveDB(db) {
   fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2));
 }
 
-// 🔑 Create new link
-app.get("/create-link", (req, res) => {
-  const token = uuidv4();
-  const expiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+// ================== AUTH MIDDLEWARE ==================
+function requireAdmin(req, res, next) {
+  if (req.session && req.session.isAdmin) return next();
+  return res.status(401).json({ error: "Unauthorized" });
+}
+
+// ================== ADMIN LOGIN ==================
+app.post("/admin/login", (req, res) => {
+  const { password } = req.body;
+
+  if (password === ADMIN_PASSWORD) {
+    req.session.isAdmin = true;
+    return res.sendStatus(200);
+  }
+
+  res.sendStatus(401);
+});
+
+// ================== CREATE LINK (ADMIN ONLY) ==================
+app.post("/admin/create-link", requireAdmin, (req, res) => {
+  const hours = Number(req.body.hours) || 24;
+
+  const token = uuidv4().replace(/-/g, "");
+  const expiresAt = Date.now() + hours * 60 * 60 * 1000;
 
   const db = loadDB();
   db[token] = { expiresAt };
   saveDB(db);
 
   res.json({
-    link: `${req.protocol}://${req.get("host")}/access/${token}`
+    link: `${req.protocol}://${req.get("host")}/access/${token}`,
   });
 });
 
-// 🔐 Protected access route
+// ================== ACCESS VIA TOKEN ==================
 app.get("/access/:token", (req, res) => {
   const { token } = req.params;
   const db = loadDB();
@@ -43,21 +83,21 @@ app.get("/access/:token", (req, res) => {
   }
 
   if (Date.now() > db[token].expiresAt) {
+    delete db[token];
+    saveDB(db);
     return res.status(403).send("⛔ Link expired");
   }
 
+  // Valid link → serve site
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// ❌ Block direct access
+// ================== BLOCK DIRECT ACCESS ==================
 app.get("/", (req, res) => {
   res.send("⛔ Access denied. Use your private link.");
 });
 
-// ✅ Serve static files LAST
-app.use(express.static(__dirname));
-
-const PORT = process.env.PORT || 3000;
+// ================== START ==================
 app.listen(PORT, () => {
-  console.log("🚀 Server running on port", PORT);
+  console.log("🚀 Server running on http://localhost:" + PORT);
 });

@@ -130,6 +130,11 @@ function initBirthdayGallery() {
   const startRotations = [8, -6, 3, -3];
   images.forEach((img, i) => gsap.set(img, { rotate: startRotations[i] || 0 }));
 
+  images.forEach((img) => {
+  const r = gsap.utils.random(-10, 10);
+  gsap.set(img, { rotate: r });
+});
+
   // --- Locomotive ---
   const scroller = new LocomotiveScroll({
     el: scrollContainer,

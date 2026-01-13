@@ -171,15 +171,13 @@ h1 {
   display: block;
 }
 
-/* Left / Right positions */
-
-#birthday-page .img:nth-child(1),
-#birthday-page .img:nth-child(3) {
+/* Odd images → right */
+#birthday-page .img:nth-child(odd) {
   left: 70%;
 }
 
-#birthday-page .img:nth-child(2),
-#birthday-page .img:nth-child(4) {
+/* Even images → left */
+#birthday-page .img:nth-child(even) {
   left: 30%;
 }
 
@@ -195,23 +193,7 @@ h1 {
   z-index: 5; /* keep stacked images below CTA */
 }
 
-/* Rotations */
 
-#birthday-page .img.reorder:nth-child(1) {
-  transform: translate(-50%, -50%) rotate(8deg);
-}
-
-#birthday-page .img.reorder:nth-child(2) {
-  transform: translate(-50%, -50%) rotate(-6deg);
-}
-
-#birthday-page .img.reorder:nth-child(3) {
-  transform: translate(-50%, -50%) rotate(3deg);
-}
-
-#birthday-page .img.reorder:nth-child(4) {
-  transform: translate(-50%, -50%) rotate(-3deg);
-}
 
 /* ===== HERO TEXT ===== */
 
