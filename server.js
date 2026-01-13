@@ -17,10 +17,20 @@ const DB_FILE = path.join(__dirname, "links.json");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ SERVE STATIC FILES FIRST
-app.use(express.static(__dirname));
+// ================== PUBLIC ASSETS (NO HTML) ==================
+app.use("/images", express.static(path.join(__dirname, "images")));
+app.use("/music", express.static(path.join(__dirname, "music")));
 
-// ✅ SESSION BEFORE ROUTES
+// Expose root CSS and JS explicitly
+app.get("/style.css", (req, res) => {
+  res.sendFile(path.join(__dirname, "style.css"));
+});
+
+app.get("/index.js", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.js"));
+});
+
+// ================== SESSION ==================
 app.use(
   session({
     secret: "super-secret-key-change-this",
@@ -44,6 +54,18 @@ function requireAdmin(req, res, next) {
   if (req.session && req.session.isAdmin) return next();
   return res.status(401).json({ error: "Unauthorized" });
 }
+
+// ================== ADMIN PAGES ==================
+
+// Default → admin panel
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "admin.html"));
+});
+
+// Direct admin access
+app.get("/admin.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "admin.html"));
+});
 
 // ================== ADMIN LOGIN ==================
 app.post("/admin/login", (req, res) => {
@@ -88,13 +110,13 @@ app.get("/access/:token", (req, res) => {
     return res.status(403).send("⛔ Link expired");
   }
 
-  // Valid link → serve site
+  // Valid link → serve protected site
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// ================== BLOCK DIRECT ACCESS ==================
-app.get("/", (req, res) => {
-  res.send("⛔ Access denied. Use your private link.");
+// ================== BLOCK DIRECT INDEX ==================
+app.get("/index.html", (req, res) => {
+  res.status(403).send("⛔ Direct access not allowed.");
 });
 
 // ================== START ==================
